@@ -1,0 +1,33 @@
+version: "3.9"
+
+services:
+  app:
+    build: .
+    command: npm start
+    ports:
+      - "3580:3580"
+    environment:
+      - PG_DB=crudveiculo
+      - PG_USER=postgres
+      - PG_PASSWORD=1596325852
+      - PG_HOST=node_db
+    depends_on:
+      - node_db
+    volumes:
+      - .:/usr/app
+
+
+  node_db:
+    container_name: node_db
+    image: postgres:12
+    ports:
+      - "5432:5432"
+    environment:
+      - POSTGRES_DB=crudveiculo
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=1596325852
+    volumes:
+      - node_db_data:/var/lib/postgressql/data
+
+volumes:
+  node_db_data: {}
