@@ -1,0 +1,125 @@
+{
+    "openapi": "3.0.0",
+    "info": {
+        "title": "CRUD Frete Veiculos",
+        "description": "Documentação da API",
+        "version": "1.0.0"
+    },
+    "basePath": "/",
+    "components": {
+        "securitySchemes": {
+            "bearerAuth": {
+                "type": "http",
+                "scheme": "bearer",
+                "bearerFomart": "JWT"
+            }
+        }
+    },
+    "paths": {
+        "/": {
+            "get": {
+                "tags": [
+                    "Index"
+                ],
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ],
+                "summary": "Index da aplicação",
+                "description": "Rota inicial da aplicação",
+                "responses": {
+                    "200": {
+                        "description": "OK!"
+                    },
+                    "500": {
+                        "description": "Erro ao requisitar API"
+                    }
+                }
+            }
+        },
+        "/login": {
+            "post": {
+                "tags": [
+                    "Index"
+                ],
+                "summary": "Login do sistema",
+                "description": "Rota para efetuar login no sistema",
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "scheme": {
+                                "type": "object",
+                                "properties": {
+                                    "email": {
+                                        "type": "string"
+                                    },
+                                    "password": {
+                                        "type": "string"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Login efetuado com sucesso!"
+                    },
+                    "422": {
+                        "description": "Email ou senha em branco!"
+                    },
+                    "500": {
+                        "description": "Erro ao requisitar API"
+                    }
+                }
+            }
+        },
+        "/user/registerUser": {
+            "post": {
+                "tags": [
+                    "User"
+                ],
+                "summary": "Cadastro de usuarios",
+                "description": "Rota para cadastrar usuarios",
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "properties": {
+                                    "firstname": {
+                                        "type": "string"
+                                    },
+                                    "lastname": {
+                                        "type": "string"
+                                    },
+                                    "email": {
+                                        "type": "string"
+                                    },
+                                    "password": {
+                                        "type": "string"
+                                    },
+                                    "confirmPassword": {
+                                        "type": "string"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "OK! Created"
+                    },
+                    "422": {
+                        "description": "Dados invalidos ou não preenchidos"
+                    },
+                    "500": {
+                        "description": "Erro ao requisitar API"
+                    }
+                }
+            }
+        }
+    }
+}

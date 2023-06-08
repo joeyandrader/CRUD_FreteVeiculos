@@ -1,4 +1,4 @@
-const { BuildReturn } = require("../Helpers/Util")
+const { BuildReturn } = require("../Helpers/Utils")
 const Person = require('../Models/PersonModel')
 const bcrypt = require('bcrypt')
 
@@ -50,6 +50,12 @@ module.exports = class PersonController {
             return
         }
 
+        const checkUser = await Person.findOne({ where: { email: email } })
+        if (checkUser) {
+            BuildReturn({ res: res, message: "Este email ja está cadastrado", status: 422 })
+            return
+        }
+
         const salt = await bcrypt.genSalt(12);
         const passwordHash = await bcrypt.hashSync(password, salt);
 
@@ -62,6 +68,7 @@ module.exports = class PersonController {
 
         try {
             await Person.create(newUser);
+            newUser.password = undefined
             BuildReturn({ res: res, json: newUser, status: 201, message: "Usuario cadastrado com sucesso!" })
         } catch (error) {
             console.log(error)

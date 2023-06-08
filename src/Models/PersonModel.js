@@ -1,7 +1,7 @@
 const Sequelize = require('sequelize')
 const connecDB = require('../DataBase/ConnectDB')
 
-const Person = connecDB.define('person', {
+const Person = connecDB.define('usuario', {
     firstname: {
         type: Sequelize.STRING,
         allowNull: false
