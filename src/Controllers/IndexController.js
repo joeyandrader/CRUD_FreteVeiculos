@@ -5,21 +5,15 @@ const { BuildReturn } = require("../Helpers/Utils")
 const bcrypt = require('bcrypt')
 
 //Models
-const Person = require("../Models/PersonModel")
+const Person = require("../Models/UserModel")
+const createUserToken = require("../Helpers/createUserToken")
 
 module.exports = class IndexController {
 
-
     /**
-     * @swagger
-     * /:
-     *  get:
-     *     description: Inicio da aplicação
-     *     responses:
-     *           '200':
-     *              description: Sucesso
-     *           '500':
-     *              description: Bad Request
+     * Rota inicial da aplicação
+     * @param {*} req 
+     * @param {*} res 
      */
     static async Index(req, res) {
         try {
@@ -29,31 +23,12 @@ module.exports = class IndexController {
         }
     }
 
+
     /**
-     * @swagger
-     * /login:
-     *     post:
-     *       summary: Rota para efetuar o login no sistema
-     *       parameters:
-     *       - in: path
-     *         name: email
-     *         required: true
-     *         description: Email
-     *         schema:
-     *           type: string
-     *       - in: path
-     *         name: password
-     *         required: true
-     *         description: Senha
-     *         schema:
-     *           type: string
-     *       responses:
-     *          '200':
-     *              description: Logado com sucesso!
-     *          '422':
-     *              description: Dados invalidos ou não preenchidos
-     *          '500':
-     *              description: Erro ao requisitar API   
+     * Rota de login
+     * @param {*} req 
+     * @param {*} res 
+     * @returns 
      */
     static async Login(req, res) {
         const { email, password } = req.body
@@ -66,10 +41,26 @@ module.exports = class IndexController {
             return
         }
 
-        const checkUser = await Person.findOne({ where: { email: email } })
-        const decryptPassword = await bcrypt.compareSync(checkUser.password, password);
-        if (checkUser) {
-            
+        const user = await Person.findOne({ where: { email: email } })
+        //Checa se o usuario email existe
+        if (!user) {
+            BuildReturn({ res: res, status: 422, message: "Não Existe um usuario com este email" })
+            return
+        }
+
+        //Checa se a senha está correta
+        const checkPassword = await bcrypt.compareSync(password, user.password);
+        if (!checkPassword) {
+            BuildReturn({ res: res, status: 422, message: "Email ou senha incorreto!" })
+            return
+        }
+
+        //apos checar se existe o usuario ou senha errada, caso exista ele gera um novo token com a função
+        try {
+            await createUserToken(user, req, res);
+        } catch (error) {
+            BuildReturn({ res: res, status: 500, json: error })
+            return
         }
     }
 

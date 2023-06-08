@@ -48,7 +48,7 @@
                 "requestBody": {
                     "content": {
                         "application/json": {
-                            "scheme": {
+                            "schema": {
                                 "type": "object",
                                 "properties": {
                                     "email": {

@@ -1,25 +1,24 @@
 const Sequelize = require('sequelize')
 const connecDB = require('../DataBase/ConnectDB')
 
-const Person = connecDB.define('usuario', {
-    firstname: {
+const Product = connecDB.define('product', {
+    name: {
         type: Sequelize.STRING,
         allowNull: false
     },
-    lastname: {
+    description: {
         type: Sequelize.STRING,
         allowNull: false
     },
-    email: {
+    weight: {
         type: Sequelize.STRING,
         allowNull: false
     },
-    password: {
-        type: Sequelize.STRING,
-        allowNull: false
+    image: {
+        type: Sequelize.STRING
     }
 })
 
-// Person.sync({ force: true })
+// Product.sync({ force: true })
 
-module.exports = Person
+module.exports = Product

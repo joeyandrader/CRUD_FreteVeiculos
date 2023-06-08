@@ -1,5 +1,6 @@
+const createUserToken = require("../Helpers/createUserToken")
 const { BuildReturn } = require("../Helpers/Utils")
-const Person = require('../Models/PersonModel')
+const Person = require('../Models/UserModel')
 const bcrypt = require('bcrypt')
 
 
@@ -69,7 +70,7 @@ module.exports = class PersonController {
         try {
             await Person.create(newUser);
             newUser.password = undefined
-            BuildReturn({ res: res, json: newUser, status: 201, message: "Usuario cadastrado com sucesso!" })
+            await createUserToken(newUser, req, res);
         } catch (error) {
             console.log(error)
             BuildReturn({ res: res, json: error, status: 500 })
