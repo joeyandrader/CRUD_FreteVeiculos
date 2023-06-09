@@ -1,6 +1,7 @@
 const Sequelize = require('sequelize')
 const connecDB = require('../DataBase/ConnectDB')
 
+
 const Vehicle = connecDB.define('vehicle', {
     name: {
         type: Sequelize.STRING,
@@ -11,7 +12,7 @@ const Vehicle = connecDB.define('vehicle', {
         allowNull: false
     },
     weight: {
-        type: Sequelize.STRING,
+        type: Sequelize.FLOAT,
         allowNull: false
     },
     model: {
@@ -25,6 +26,8 @@ const Vehicle = connecDB.define('vehicle', {
     image: {
         type: Sequelize.STRING
     }
+}, {
+    freezeTableName: true
 })
 
 // Vehicle.sync({ force: true })

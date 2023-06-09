@@ -24,9 +24,15 @@ app.use('/api-docs', swaggerUI.serve, swaggerUI.setup(swaggerDocJson))
  */
 const IndexRouter = require('./src/Routes/Routes');
 const UserRouter = require('./src/Routes/UserRouter');
+const ProductRouter = require('./src/Routes/ProductRouter');
+const VehicleRouter = require("./src/Routes/VehicleRouter");
+const FreteRouter = require("./src/Routes/FreteRouter");
 
 app.use("/", IndexRouter);
 app.use("/user", UserRouter);
+app.use('/product', ProductRouter);
+app.use('/vehicle', VehicleRouter);
+app.use('/frete', FreteRouter);
 
 
 // export app

@@ -11,13 +11,16 @@ const Product = connecDB.define('product', {
         allowNull: false
     },
     weight: {
-        type: Sequelize.STRING,
+        type: Sequelize.FLOAT,
         allowNull: false
     },
     image: {
         type: Sequelize.STRING
     }
+}, {
+    freezeTableName: true
 })
+
 
 // Product.sync({ force: true })
 

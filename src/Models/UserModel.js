@@ -1,7 +1,8 @@
 const Sequelize = require('sequelize')
 const connecDB = require('../DataBase/ConnectDB')
 
-const User = connecDB.define('usuario', {
+
+const User = connecDB.define('user', {
     firstname: {
         type: Sequelize.STRING,
         allowNull: false
@@ -18,8 +19,11 @@ const User = connecDB.define('usuario', {
         type: Sequelize.STRING,
         allowNull: false
     }
+}, {
+    freezeTableName: true
 })
 
-// Person.sync({ force: true })
+
+// User.sync({ force: true })
 
 module.exports = User

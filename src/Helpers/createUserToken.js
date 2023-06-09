@@ -1,5 +1,6 @@
 const jwt = require('jsonwebtoken');
 const { BuildReturn } = require('./Utils');
+const UserAccess = require('../Models/UserAccess');
 
 const createUserToken = async (user, req, res) => {
 
@@ -8,7 +9,9 @@ const createUserToken = async (user, req, res) => {
         name: user.name,
         email: user.email,
         id: user.id
-    }, process.env.KEY_JWT)
+    }, process.env.KEY_JWT, {
+        expiresIn: "10h"
+    })
 
     //Retorna o token para função
     BuildReturn({

@@ -60,7 +60,6 @@ module.exports = class IndexController {
             await createUserToken(user, req, res);
         } catch (error) {
             BuildReturn({ res: res, status: 500, json: error })
-            return
         }
     }
 
