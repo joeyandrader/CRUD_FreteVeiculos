@@ -1,8 +1,16 @@
+const Frete = require("../Models/FreteModel");
+const Product = require("../Models/ProductModel");
+const Vehicle = require("../Models/VehicleModel");
+
 module.exports = {
     /**
      * Função para retornar um formato JSON organizado
-     * @param {*} param0 
-     * @returns 
+     * @param {res} res
+     * @param {json} json
+     * @param {status} status
+     * @param {success} success
+     * @param {message} message
+     * @returns BuildReturn()
      * @by Joel Andrade
      */
     BuildReturn: ({ res: res, json: json, status: status, success: success, message: message }) => {

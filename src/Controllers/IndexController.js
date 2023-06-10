@@ -1,5 +1,6 @@
 // Helpers
 const { BuildReturn } = require("../Helpers/Utils")
+const { UpdateUserNameStart, UpdateUserNameStop } = require('../Helpers/CronJobs');
 
 //Dependencies
 const bcrypt = require('bcrypt')
@@ -16,6 +17,8 @@ module.exports = class IndexController {
      * @param {*} res 
      */
     static async Index(req, res) {
+
+
         try {
             BuildReturn({ res: res, status: 200, json: "Hello World Docker" })
         } catch (error) {

@@ -13,11 +13,27 @@ module.exports = class FreteController {
     static async ListFrete(req, res) {
 
         const listFrete = await Frete.findAll({ where: { status: "Disponivel" } });
-
+        let objectReturn = []
+        listFrete.forEach(element => {
+            objectReturn.push({
+                id: element.id,
+                name: element.name,
+                product: element.product,
+                product_weight: element.product_weight,
+                vehicle: element.vehicle,
+                vehicle_weight: element.vehicle_weight,
+                frete_km: element.frete_km,
+                frete_price: element.frete_km * element.product_weight * element.vehicle_weight,
+                status: element.status,
+                product_id: element.product_id,
+                vehicle_id: element.vehicle_id,
+                user_id: element.user_id
+            })
+        });
         try {
             BuildReturn({
                 res: res,
-                json: listFrete,
+                json: objectReturn,
                 status: 200
             })
         } catch (error) {
@@ -29,6 +45,12 @@ module.exports = class FreteController {
         }
     }
 
+    /**
+     * 
+     * @param {*} req 
+     * @param {*} res 
+     * @returns 
+     */
     static async RegisterFrete(req, res) {
         const { name, productId, vehicleId, frete_km } = req.body
         if (!name) {
