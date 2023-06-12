@@ -10,7 +10,7 @@ const createUserToken = async (user, req, res) => {
         email: user.email,
         id: user.id
     }, process.env.KEY_JWT, {
-        expiresIn: "10h"
+        expiresIn: "5h"
     })
 
     //Retorna o token para função

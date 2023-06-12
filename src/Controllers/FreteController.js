@@ -7,6 +7,8 @@ const HistoryFrete = require("../Models/HistoryShippingModel")
 //Helpers
 const getToken = require("../Helpers/getToken");
 const getUserByToken = require('../Helpers/getUserByToken');
+const { AlterFreteStatusTime } = require('../Helpers/MyCronnTime');
+const { UpdateFreteStart } = require("../Helpers/CronJobs");
 
 module.exports = class FreteController {
 
@@ -137,16 +139,71 @@ module.exports = class FreteController {
         try {
             await Frete.update({
                 user_id: user.id,
-                status: 'Pending'
+                status: 'Pendente'
             }, {
                 where: { id: findFrete.id }
             })
             await HistoryFrete.create(createHistory);
+            // AlterStatusFreteStart({ id: id })
+            AlterFreteStatusTime({ id: id })
             BuildReturn({ res: res, message: "Frete atribuido com sucesso!", status: 200 })
         } catch (error) {
             BuildReturn({ res: res, json: error, status: 500 })
         }
 
+    }
+
+    static async UpdateFrete(req, res) {
+        const { id, name, productId, vehicleId, frete_km, status } = req.body
+
+        if (!name) {
+            return BuildReturn({ res: res, message: "Name is required", status: 422 })
+        }
+        if (!productId) {
+            return BuildReturn({ res: res, message: "Name is required", status: 422 })
+        }
+        if (!vehicleId) {
+            return BuildReturn({ res: res, message: "Name is required", status: 422 })
+        }
+        if (!frete_km) {
+            return BuildReturn({ res: res, message: "Name is required", status: 422 })
+        }
+
+        let findFrete = await Frete.findByPk(id)
+        if (!findFrete) {
+            return BuildReturn({ res: res, message: "Shipping not found", status: 422 })
+        }
+
+        let findProduct = await Product.findByPk(findFrete.product_id)
+        if (!findProduct) {
+            return BuildReturn({ res: res, message: "Product not found", status: 422 })
+        }
+        let findVehicle = await Vehicle.findByPk(findFrete.vehicle_id)
+        if (!findVehicle) {
+            return BuildReturn({ res: res, message: "Vehicle not found", status: 422 })
+        }
+
+        let calcFrete = frete_km * findProduct.weight * findVehicle.weight
+
+        const newUpdateFrete = {
+            id,
+            name,
+            product: findProduct.name,
+            product_weight: findProduct.weight,
+            vehicle: findVehicle.name,
+            vehicle_weight: findVehicle.weight,
+            frete_km,
+            frete_price: calcFrete,
+            product_id: findProduct.id,
+            vehicle_id: findVehicle.id
+        }
+
+        try {
+            UpdateFreteStart(newUpdateFrete);
+            BuildReturn({ res: res, message: "Frete Editado com sucesso!", json: newUpdateFrete, status: 200 })
+        } catch (error) {
+            BuildReturn({ res: res, json: error, status: 500 })
+        }
     }
 
 

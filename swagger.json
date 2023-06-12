@@ -67,7 +67,7 @@
                         "description": "Login efetuado com sucesso!"
                     },
                     "422": {
-                        "description": "Email ou senha em branco!"
+                        "description": "Dados invalidos"
                     },
                     "500": {
                         "description": "Internal server error"
@@ -153,6 +153,9 @@
                     },
                     "401": {
                         "description": "Unauthorized"
+                    },
+                    "422": {
+                        "description": "Dados invalidos"
                     },
                     "500": {
                         "description": "Internal server error"
@@ -291,6 +294,9 @@
                     "401": {
                         "description": "Unauthorized"
                     },
+                    "422": {
+                        "description": "Dados invalidos"
+                    },
                     "500": {
                         "description": "Internal server error"
                     }
@@ -344,6 +350,9 @@
                     },
                     "401": {
                         "description": "Unauthorized"
+                    },
+                    "422": {
+                        "description": "Dados invalidos"
                     },
                     "500": {
                         "description": "Internal server error"
@@ -424,6 +433,66 @@
                     "401": {
                         "description": "Unauthorized"
                     },
+                    "422": {
+                        "description": "Dados invalidos"
+                    },
+                    "500": {
+                        "description": "Internal server error"
+                    }
+                }
+            }
+        },
+        "/vehicle/vehicleUpdate": {
+            "put": {
+                "tags": [
+                    "Vehicle"
+                ],
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ],
+                "summary": "Editar Veiculos",
+                "description": "Metodo para editar o veiuclo",
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "properties": {
+                                    "name": {
+                                        "type": "string"
+                                    },
+                                    "description": {
+                                        "type": "string"
+                                    },
+                                    "weight": {
+                                        "type": "number"
+                                    },
+                                    "model": {
+                                        "type": "string"
+                                    },
+                                    "brand": {
+                                        "type": "string"
+                                    },
+                                    "image": {
+                                        "type": "string"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "OK! Created"
+                    },
+                    "401": {
+                        "description": "Unauthorized"
+                    },
+                    "422": {
+                        "description": "Dados invalidos"
+                    },
                     "500": {
                         "description": "Internal server error"
                     }
@@ -466,7 +535,7 @@
                     }
                 ],
                 "summary": "Registrar Frete",
-                "description": "Registra o frete no sistema",
+                "description": "Registra o frete no sistema, todos os dados sao obrigatorios",
                 "requestBody": {
                     "content": {
                         "application/json": {
@@ -496,6 +565,60 @@
                     },
                     "401": {
                         "description": "Unauthorized"
+                    },
+                    "422": {
+                        "description": "Dados invalidos"
+                    },
+                    "500": {
+                        "description": "Internal server error"
+                    }
+                }
+            }
+        },
+        "/frete/updateFrete": {
+            "put": {
+                "tags": [
+                    "Frete"
+                ],
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ],
+                "summary": "Edita o Frete",
+                "description": "edita o frete no sistema",
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "properties": {
+                                    "name": {
+                                        "type": "string"
+                                    },
+                                    "productId": {
+                                        "type": "number"
+                                    },
+                                    "vehicleId": {
+                                        "type": "number"
+                                    },
+                                    "frete_km": {
+                                        "type": "number"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "OK"
+                    },
+                    "401": {
+                        "description": "Unauthorized"
+                    },
+                    "422": {
+                        "description": "Dados invalidos"
                     },
                     "500": {
                         "description": "Internal server error"
